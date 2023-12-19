@@ -5,7 +5,7 @@ class GameOfLife {
     return this.table;
   }
 
-  nextGeneration() {
+  tick() {
     this.table = this.table.map(rows => {
       return rows.map(column => {
         return column;
@@ -29,7 +29,7 @@ describe('Game of life', () => {
 
     expect(game.status()).toStrictEqual(block);
 
-    game.nextGeneration();
+    game.tick();
 
     expect(game.status()).toStrictEqual(block);
   });
