@@ -38,4 +38,12 @@ describe('Cell', () => {
 
     expect(nextCell.isLive()).toBeFalsy();
   });
+
+  it('a live cell with one neighbour dies', () => {
+    const cell = Cell.createLive();
+
+    const nextCell = cell.nextCell(1);
+
+    expect(nextCell.isLive()).toBeFalsy();
+  });
 });
