@@ -14,7 +14,7 @@ class Cell {
   }
 
   nextCell(neighbours: number) {
-    if (neighbours === 2) {
+    if (neighbours === 2 || neighbours === 3) {
       return Cell.createLive();
     }
     return Cell.createDead();
@@ -54,6 +54,14 @@ describe('Cell', () => {
     const cell = Cell.createLive();
 
     const nextCell = cell.nextCell(2);
+
+    expect(nextCell.isLive()).toBeTruthy();
+  });
+
+  it('a live cell with three neighbours lives on to the next generation', () => {
+    const cell = Cell.createLive();
+
+    const nextCell = cell.nextCell(3);
 
     expect(nextCell.isLive()).toBeTruthy();
   });
