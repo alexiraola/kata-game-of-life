@@ -65,4 +65,12 @@ describe('Cell', () => {
 
     expect(nextCell.isLive()).toBeTruthy();
   });
+
+  it('a live cell with more than three neighbours dies', () => {
+    const cell = Cell.createLive();
+
+    const nextCell = cell.nextCell(4);
+
+    expect(nextCell.isLive()).toBeFalsy();
+  });
 });
