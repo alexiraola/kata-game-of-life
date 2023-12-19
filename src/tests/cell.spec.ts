@@ -5,6 +5,10 @@ class Cell {
     return new Cell(true);
   }
 
+  static createDead() {
+    return new Cell(false);
+  }
+
   isLive() {
     return this.live;
   }
@@ -16,4 +20,10 @@ describe('Cell', () => {
 
     expect(cell.isLive()).toBeTruthy();
   });
+
+  it('should create a dead cell', () => {
+    const cell = Cell.createDead();
+
+    expect(cell.isLive()).toBeFalsy();
+  })
 });
