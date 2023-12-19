@@ -12,6 +12,10 @@ class Cell {
   isLive() {
     return this.live;
   }
+
+  nextCell(neighbours: number) {
+    return Cell.createDead();
+  }
 }
 
 describe('Cell', () => {
@@ -25,5 +29,13 @@ describe('Cell', () => {
     const cell = Cell.createDead();
 
     expect(cell.isLive()).toBeFalsy();
-  })
+  });
+
+  it('a live cell with no neighbours dies', () => {
+    const cell = Cell.createLive();
+
+    const nextCell = cell.nextCell(0);
+
+    expect(nextCell.isLive()).toBeFalsy();
+  });
 });
