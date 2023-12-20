@@ -14,8 +14,14 @@ class Cell {
   }
 
   nextCell(neighbours: number) {
-    if (neighbours === 2 || neighbours === 3) {
-      return Cell.createLive();
+    if (this.live) {
+      if (neighbours === 2 || neighbours === 3) {
+        return Cell.createLive();
+      }
+    } else {
+      if (neighbours === 3) {
+        return Cell.createLive();
+      }
     }
     return Cell.createDead();
   }
@@ -70,6 +76,22 @@ describe('Cell', () => {
     const cell = Cell.createLive();
 
     const nextCell = cell.nextCell(4);
+
+    expect(nextCell.isLive()).toBeFalsy();
+  });
+
+  it('a dead cell with exactly three live neighbours becomes a live cell', () => {
+    const cell = Cell.createDead();
+
+    const nextCell = cell.nextCell(3);
+
+    expect(nextCell.isLive()).toBeTruthy();
+  });
+
+  it('a dead cell with any number of neighbours different to three stays dead', () => {
+    const cell = Cell.createDead();
+
+    const nextCell = cell.nextCell(2);
 
     expect(nextCell.isLive()).toBeFalsy();
   });
