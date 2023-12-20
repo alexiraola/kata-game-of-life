@@ -1,6 +1,14 @@
 import { Cell } from '../core/cell';
 
 describe('Cell', () => {
+  it('should create a cell from a number', () => {
+    const liveCell = Cell.createFromNumber(1);
+    const deadCell = Cell.createFromNumber(0);
+
+    expect(liveCell.isLive()).toBeTruthy();
+    expect(deadCell.isLive()).toBeFalsy();
+  });
+
   it('should create a live cell', () => {
     const cell = Cell.createLive();
 

@@ -9,6 +9,10 @@ export class Cell {
     return new Cell(false);
   }
 
+  static createFromNumber(value: number) {
+    return new Cell(value === 1);
+  }
+
   isLive() {
     return this.live;
   }
