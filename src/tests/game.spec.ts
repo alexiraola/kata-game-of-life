@@ -1,8 +1,14 @@
+import { Cell } from "../core/cell";
+
 class GameOfLife {
-  constructor(private table: number[][]) { }
+  private constructor(private table: Cell[][]) { }
+
+  static createWithInitialState(state: number[][]) {
+    return new GameOfLife(state.map(row => row.map(cell => Cell.createFromNumber(cell))));
+  }
 
   status() {
-    return this.table;
+    return this.table.map(row => row.map(cell => cell.isLive() ? 1 : 0));
   }
 
   tick() {
@@ -16,7 +22,7 @@ class GameOfLife {
 
 describe('Game of life', () => {
   it('creates a game table', () => {
-    const game = new GameOfLife([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+    const game = GameOfLife.createWithInitialState([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
 
     const table = game.status();
 
@@ -25,7 +31,7 @@ describe('Game of life', () => {
 
   it('generates a correctly a block', () => {
     const block = [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]];
-    const game = new GameOfLife(block);
+    const game = GameOfLife.createWithInitialState(block);
 
     expect(game.status()).toStrictEqual(block);
 
