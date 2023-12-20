@@ -22,14 +22,11 @@ export class Cell {
   }
 
   nextCell(neighbours: number) {
-    if (this.live) {
-      if (neighbours === 2 || neighbours === 3) {
-        return Cell.createLive();
-      }
-    } else {
-      if (neighbours === 3) {
-        return Cell.createLive();
-      }
+    if (neighbours === 3) {
+      return Cell.createLive();
+    }
+    if (neighbours === 2 && this.live) {
+      return Cell.createLive();
     }
     return Cell.createDead();
   }
