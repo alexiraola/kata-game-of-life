@@ -2,11 +2,11 @@ import { GameOfLife } from '../core/game';
 
 describe('Game of life', () => {
   it('creates a game table', () => {
-    const game = GameOfLife.createWithInitialState([
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0]
-    ]);
+    const game = GameOfLife.createFromString(`
+      - - -
+      - - -
+      - - -
+    `);
 
     const table = game.status();
 

@@ -7,6 +7,11 @@ export class GameOfLife {
     return new GameOfLife(state.map(row => row.map(cell => Cell.createFromNumber(cell))));
   }
 
+  static createFromString(state: string) {
+    const rows = state.trim().split("\n");
+    return new GameOfLife(rows.map(row => row.trim().split(' ').map(cell => Cell.createFromChar(cell))));
+  }
+
   status() {
     return this.table.map(row => row.map(cell => cell.isLive() ? 1 : 0));
   }

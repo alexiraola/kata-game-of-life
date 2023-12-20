@@ -13,6 +13,10 @@ export class Cell {
     return new Cell(value === 1);
   }
 
+  static createFromChar(value: string) {
+    return new Cell(value === 'x');
+  }
+
   isLive() {
     return this.live;
   }

@@ -9,6 +9,14 @@ describe('Cell', () => {
     expect(deadCell.isLive()).toBeFalsy();
   });
 
+  it('should create a cell from a string', () => {
+    const liveCell = Cell.createFromChar('x');
+    const deadCell = Cell.createFromChar('-');
+
+    expect(liveCell.isLive()).toBeTruthy();
+    expect(deadCell.isLive()).toBeFalsy();
+  });
+
   it('should create a live cell', () => {
     const cell = Cell.createLive();
 
