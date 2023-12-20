@@ -97,4 +97,31 @@ describe('Game of life', () => {
 
     expect(game.status()).toStrictEqual(blinker2);
   });
+
+  it('generates correctly a toad', () => {
+    const toad1 = [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 1, 1, 1, 0],
+      [0, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ];
+    const toad2 = [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 0, 0],
+      [0, 1, 0, 0, 1, 0],
+      [0, 1, 0, 0, 1, 0],
+      [0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ];
+    const game = GameOfLife.createWithInitialState(toad1);
+
+    expect(game.status()).toStrictEqual(toad1);
+
+    game.tick();
+
+
+    expect(game.status()).toStrictEqual(toad2);
+  });
 });
