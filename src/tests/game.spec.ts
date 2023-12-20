@@ -1,169 +1,176 @@
 import { GameOfLife } from '../core/game';
 
 describe('Game of life', () => {
+  const normalizeTableString = (table: string) => {
+    return table.trim().replace(/[ ]{2,}/g, '');
+  }
+
   it('creates a game table', () => {
-    const game = GameOfLife.createFromString(`
+    const state = normalizeTableString(`
       - - -
       - - -
       - - -
     `);
+    const game = GameOfLife.createFromInitialState(state);
 
-    const table = game.status();
+    const table = game.toString();
 
-    expect(table).toStrictEqual(new Array(3).fill(new Array(3).fill(0)))
+    expect(table).toBe(state)
   });
 
-  it('generates a correctly a block', () => {
-    const block = [
-      [0, 0, 0, 0],
-      [0, 1, 1, 0],
-      [0, 1, 1, 0],
-      [0, 0, 0, 0]
-    ];
-    const game = GameOfLife.createWithInitialState(block);
+  it('generates correctly a block', () => {
+    const block = normalizeTableString(`
+      - - - -
+      - x x -
+      - x x -
+      - - - -
+    `);
 
-    expect(game.status()).toStrictEqual(block);
+    const game = GameOfLife.createFromInitialState(block);
+
+    expect(game.toString()).toBe(block);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(block);
+    expect(game.toString()).toBe(block);
   });
 
   it('generates correctly a blinker', () => {
-    const blinker1 = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0]
-    ];
-    const blinker2 = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0]
-    ];
-    const game = GameOfLife.createWithInitialState(blinker1);
+    const blinker1 = normalizeTableString(`
+      - - - - -
+      - - x - -
+      - - x - -
+      - - x - -
+      - - - - -
+    `);
+    const blinker2 = normalizeTableString(`
+      - - - - -
+      - - - - -
+      - x x x -
+      - - - - -
+      - - - - -
+    `);
 
-    expect(game.status()).toStrictEqual(blinker1);
+    const game = GameOfLife.createFromInitialState(blinker1);
+
+    expect(game.toString()).toBe(blinker1);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(blinker2);
+    expect(game.toString()).toBe(blinker2);
   });
 
   it('generates correctly a toad', () => {
-    const toad1 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 0],
-      [0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const toad2 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0],
-      [0, 1, 0, 0, 1, 0],
-      [0, 1, 0, 0, 1, 0],
-      [0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const game = GameOfLife.createWithInitialState(toad1);
+    const toad1 = normalizeTableString(`
+      - - - - - -
+      - - - - - -
+      - - x x x -
+      - x x x - -
+      - - - - - -
+      - - - - - -
+    `);
+    const toad2 = normalizeTableString(`
+      - - - - - -
+      - - - x - -
+      - x - - x -
+      - x - - x -
+      - - x - - -
+      - - - - - -
+    `);
+    const game = GameOfLife.createFromInitialState(toad1);
 
-    expect(game.status()).toStrictEqual(toad1);
+    expect(game.toString()).toBe(toad1);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(toad2);
+    expect(game.toString()).toBe(toad2);
   });
 
   it('generates correctly a beacon', () => {
-    const beacon1 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 0, 0, 0],
-      [0, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0],
-      [0, 0, 0, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const beacon2 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 0],
-      [0, 0, 0, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const game = GameOfLife.createWithInitialState(beacon1);
+    const beacon1 = normalizeTableString(`
+      - - - - - -
+      - x x - - -
+      - x x - - -
+      - - - x x -
+      - - - x x -
+      - - - - - -
+    `);
+    const beacon2 = normalizeTableString(`
+      - - - - - -
+      - x x - - -
+      - x - - - -
+      - - - - x -
+      - - - x x -
+      - - - - - -
+    `);
+    const game = GameOfLife.createFromInitialState(beacon1);
 
-    expect(game.status()).toStrictEqual(beacon1);
+    expect(game.toString()).toBe(beacon1);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(beacon2);
+    expect(game.toString()).toBe(beacon2);
   });
 
   it('generates correctly a glider', () => {
-    const glider1 = [
-      [0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0],
-      [0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const glider2 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 1, 0, 0],
-      [0, 0, 1, 1, 0, 0],
-      [0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const glider3 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0],
-      [0, 1, 0, 1, 0, 0],
-      [0, 0, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const glider4 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0],
-      [0, 0, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const glider5 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 1, 0],
-      [0, 0, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-    const game = GameOfLife.createWithInitialState(glider1);
+    const glider1 = normalizeTableString(`
+      - - x - - -
+      - - - x - -
+      - x x x - -
+      - - - - - -
+      - - - - - -
+      - - - - - -
+    `);
+    const glider2 = normalizeTableString(`
+      - - - - - -
+      - x - x - -
+      - - x x - -
+      - - x - - -
+      - - - - - -
+      - - - - - -
+    `);
+    const glider3 = normalizeTableString(`
+      - - - - - -
+      - - - x - -
+      - x - x - -
+      - - x x - -
+      - - - - - -
+      - - - - - -
+    `);
+    const glider4 = normalizeTableString(`
+      - - - - - -
+      - - x - - -
+      - - - x x -
+      - - x x - -
+      - - - - - -
+      - - - - - -
+    `);
+    const glider5 = normalizeTableString(`
+      - - - - - -
+      - - - x - -
+      - - - - x -
+      - - x x x -
+      - - - - - -
+      - - - - - -
+    `);
+    const game = GameOfLife.createFromInitialState(glider1);
 
-    expect(game.status()).toStrictEqual(glider1);
-
-    game.tick();
-
-    expect(game.status()).toStrictEqual(glider2);
+    expect(game.toString()).toBe(glider1);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(glider3);
+    expect(game.toString()).toBe(glider2);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(glider4);
+    expect(game.toString()).toBe(glider3);
 
     game.tick();
 
-    expect(game.status()).toStrictEqual(glider5);
+    expect(game.toString()).toBe(glider4);
+
+    game.tick();
+
+    expect(game.toString()).toBe(glider5);
   });
 });
