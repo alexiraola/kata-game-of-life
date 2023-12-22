@@ -1,23 +1,16 @@
 import { Cell } from "./cell";
 
 export class GameOfLife {
-  private constructor(private table: Cell[][]) { }
-
-  static createFromInitialState(state: string) {
-    const rows = state.trim().split("\n");
-    return new GameOfLife(rows.map(row => row.trim().split(' ').map(cell => Cell.createFromChar(cell))));
-  }
-
-  toString() {
-    return this.table.map(row => row.map(cell => cell.isLive() ? 'x' : '-').join(' ')).join("\n");
-  }
+  constructor(readonly table: Cell[][]) { }
 
   tick() {
-    this.table = this.table.map((rows, row) => {
+    const newTable = this.table.map((rows, row) => {
       return rows.map((cell, column) => {
         return cell.nextCell(this.liveNeighbours(row, column));
       });
     });
+
+    return new GameOfLife(newTable);
   }
 
   private liveNeighbours(row: number, column: number) {

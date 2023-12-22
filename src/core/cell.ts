@@ -1,33 +1,29 @@
-export class Cell {
-  private constructor(private readonly live: boolean) { }
+export interface Cell {
+  isLive(): boolean;
+  nextCell(neighbours: number): Cell;
+}
 
-  static createLive() {
-    return new Cell(true);
+export class LiveCell implements Cell {
+  isLive(): boolean {
+    return true;
+  }
+  nextCell(neighbours: number): Cell {
+    if (neighbours === 3 || neighbours === 2) {
+      return new LiveCell();
+    }
+    return new DeadCell();
+  }
+}
+
+export class DeadCell implements Cell {
+  isLive(): boolean {
+    return false;
   }
 
-  static createDead() {
-    return new Cell(false);
-  }
-
-  static createFromNumber(value: number) {
-    return new Cell(value === 1);
-  }
-
-  static createFromChar(value: string) {
-    return new Cell(value === 'x');
-  }
-
-  isLive() {
-    return this.live;
-  }
-
-  nextCell(neighbours: number) {
+  nextCell(neighbours: number): Cell {
     if (neighbours === 3) {
-      return Cell.createLive();
+      return new LiveCell();
     }
-    if (neighbours === 2 && this.live) {
-      return Cell.createLive();
-    }
-    return Cell.createDead();
+    return new DeadCell();
   }
 }
