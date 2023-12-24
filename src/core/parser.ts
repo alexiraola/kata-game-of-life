@@ -6,13 +6,13 @@ export enum CellValue {
   DEAD = '-'
 }
 
-export class GameParser {
-  static parseGame(state: string) {
-    const rows = state.trim().split("\n");
-    return new GameOfLife(rows.map(row => row.trim().split(' ').map(cell => this.parseCell(cell))));
+export class GameMapper {
+  static fromTextToGame(text: string) {
+    const rows = text.trim().split("\n");
+    return new GameOfLife(rows.map(row => row.trim().split(' ').map(cell => this.fromTextToCell(cell))));
   }
 
-  static parseCell(value: string) {
+  private static fromTextToCell(value: string) {
     switch (value) {
       case CellValue.LIVE:
         return new LiveCell();
@@ -21,16 +21,14 @@ export class GameParser {
     }
     throw Error(`Invalid cell value: ${value}`);
   }
-}
 
-export class GamePrinter {
-  static printGame(game: GameOfLife) {
+  static fromGameToText(game: GameOfLife) {
     return game.table.map(row => {
-      return row.map(cell => this.printCell(cell)).join(' ')
+      return row.map(cell => this.fromCellToText(cell)).join(' ')
     }).join("\n");
   }
 
-  static printCell(cell: Cell) {
+  private static fromCellToText(cell: Cell) {
     return cell.isLive()
       ? CellValue.LIVE
       : CellValue.DEAD;

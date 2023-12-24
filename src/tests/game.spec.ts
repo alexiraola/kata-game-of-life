@@ -1,4 +1,4 @@
-import { GameParser, GamePrinter } from '../core/parser';
+import { GameMapper } from '../core/parser';
 
 describe('Game of life', () => {
   const normalizeTableString = (table: string) => {
@@ -11,9 +11,9 @@ describe('Game of life', () => {
       - - -
       - - -
     `);
-    const game = GameParser.parseGame(state);
+    const game = GameMapper.fromTextToGame(state);
 
-    expect(GamePrinter.printGame(game)).toBe(state)
+    expect(GameMapper.fromGameToText(game)).toBe(state)
   });
 
   it('generates correctly a block', () => {
@@ -24,10 +24,10 @@ describe('Game of life', () => {
       - - - -
     `);
 
-    const game = GameParser.parseGame(block);
+    const game = GameMapper.fromTextToGame(block);
 
-    expect(GamePrinter.printGame(game)).toBe(block);
-    expect(GamePrinter.printGame(game.tick())).toBe(block);
+    expect(GameMapper.fromGameToText(game)).toBe(block);
+    expect(GameMapper.fromGameToText(game.tick())).toBe(block);
   });
 
   it('generates correctly a blinker', () => {
@@ -46,10 +46,10 @@ describe('Game of life', () => {
       - - - - -
     `);
 
-    const game = GameParser.parseGame(blinker1);
+    const game = GameMapper.fromTextToGame(blinker1);
 
-    expect(GamePrinter.printGame(game)).toBe(blinker1);
-    expect(GamePrinter.printGame(game.tick())).toBe(blinker2);
+    expect(GameMapper.fromGameToText(game)).toBe(blinker1);
+    expect(GameMapper.fromGameToText(game.tick())).toBe(blinker2);
   });
 
   it('generates correctly a toad', () => {
@@ -69,10 +69,10 @@ describe('Game of life', () => {
       - - x - - -
       - - - - - -
     `);
-    const game = GameParser.parseGame(toad1);
+    const game = GameMapper.fromTextToGame(toad1);
 
-    expect(GamePrinter.printGame(game)).toBe(toad1);
-    expect(GamePrinter.printGame(game.tick())).toBe(toad2);
+    expect(GameMapper.fromGameToText(game)).toBe(toad1);
+    expect(GameMapper.fromGameToText(game.tick())).toBe(toad2);
   });
 
   it('generates correctly a beacon', () => {
@@ -92,10 +92,10 @@ describe('Game of life', () => {
       - - - x x -
       - - - - - -
     `);
-    const game = GameParser.parseGame(beacon1);
+    const game = GameMapper.fromTextToGame(beacon1);
 
-    expect(GamePrinter.printGame(game)).toBe(beacon1);
-    expect(GamePrinter.printGame(game.tick())).toBe(beacon2);
+    expect(GameMapper.fromGameToText(game)).toBe(beacon1);
+    expect(GameMapper.fromGameToText(game.tick())).toBe(beacon2);
   });
 
   it('generates correctly a glider', () => {
@@ -139,12 +139,12 @@ describe('Game of life', () => {
       - - - - - -
       - - - - - -
     `);
-    const game = GameParser.parseGame(glider1);
+    const game = GameMapper.fromTextToGame(glider1);
 
-    expect(GamePrinter.printGame(game)).toBe(glider1);
-    expect(GamePrinter.printGame(game.tick())).toBe(glider2);
-    expect(GamePrinter.printGame(game.tick().tick())).toBe(glider3);
-    expect(GamePrinter.printGame(game.tick().tick().tick())).toBe(glider4);
-    expect(GamePrinter.printGame(game.tick().tick().tick().tick())).toBe(glider5);
+    expect(GameMapper.fromGameToText(game)).toBe(glider1);
+    expect(GameMapper.fromGameToText(game.tick())).toBe(glider2);
+    expect(GameMapper.fromGameToText(game.tick().tick())).toBe(glider3);
+    expect(GameMapper.fromGameToText(game.tick().tick().tick())).toBe(glider4);
+    expect(GameMapper.fromGameToText(game.tick().tick().tick().tick())).toBe(glider5);
   });
 });
